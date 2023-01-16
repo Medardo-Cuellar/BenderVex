@@ -67,6 +67,13 @@ void autonomous(void) {
 /*                                                                           */
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
+int DireccionRecogedor = 0;
+
+void UsarRecogedor()
+{
+Recogedor.setVelocity(100, pct)
+
+}
 
 void usercontrol(void) {
   //User declared variables
@@ -75,13 +82,21 @@ void usercontrol(void) {
   int VelocidadMotorIzquierdo = 0;
   int VelocidadMotorDerecho = 0;
   int standadSpd=80;
+  
+
   // User control code here, inside the loop
   while (true) {
     //boton de Recogedor
     //---Control de Recogedor---
     Recogedor.setVelocity(standadSpd, percent);
-    if (Controller1.ButtonL1.pressing()){
-        Recogedor.spin(forward);
+    if (Controller1.ButtonL1.pressing()
+    {
+        while(Controller1.ButtonL1.pressing())
+        {task::sleep(150);}
+        DireccionRecogedor=1;
+        if(DireccionRecogedor==0)
+        {DireccionRecogedor=1}
+        else if(DireccionRecogedor==1)
     }
     else if (Controller1.ButtonL2.pressing()){
         Recogedor.spin(reverse);
@@ -94,7 +109,7 @@ void usercontrol(void) {
     {
       while(Controller1.ButtonA.pressing())
       {
-          vex::task::sleep(150);
+          task::sleep(150);
       }
       dir++;
     }
