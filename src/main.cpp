@@ -67,13 +67,7 @@ void autonomous(void) {
 /*                                                                           */
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
-int DireccionRecogedor = 0;
 
-void UsarRecogedor()
-{
-Recogedor.setVelocity(100, pct)
-
-}
 
 void usercontrol(void) {
   //User declared variables
@@ -82,28 +76,54 @@ void usercontrol(void) {
   int VelocidadMotorIzquierdo = 0;
   int VelocidadMotorDerecho = 0;
   int standadSpd=80;
-  
-
+  int AvanzarRecogedor = 0;
+  int RetrocederRecogedor = 0;
   // User control code here, inside the loop
   while (true) {
     //boton de Recogedor
     //---Control de Recogedor---
     Recogedor.setVelocity(standadSpd, percent);
-    if (Controller1.ButtonL1.pressing()
+    if (Controller1.ButtonL1.pressing())
     {
         while(Controller1.ButtonL1.pressing())
-        {task::sleep(150);}
-        DireccionRecogedor=1;
-        if(DireccionRecogedor==0)
-        {DireccionRecogedor=1}
-        else if(DireccionRecogedor==1)
+        {
+        task::sleep(150);
+        }
+        AvanzarRecogedor++;
     }
-    else if (Controller1.ButtonL2.pressing()){
-        Recogedor.spin(reverse);
+        if(AvanzarRecogedor==0)
+        {
+          Recogedor.stop();
+        }
+        else if(AvanzarRecogedor==1)
+        {
+          Recogedor.spin(forward);
+        }
+        else if(AvanzarRecogedor==2)
+        {
+          AvanzarRecogedor=0;
+        }
+    else if (Controller1.ButtonL2.pressing())
+    {
+        while (Controller1.ButtonL2.pressing())
+        {
+          task::sleep(150);
+        }
+        RetrocederRecogedor++;
     }
-    else {
-      Recogedor.stop();
-    }
+        if (RetrocederRecogedor==0)
+        {
+          Recogedor.stop();
+        }
+        else if (RetrocederRecogedor==1)
+        {
+          Recogedor.spin(reverse);
+        }
+        else if(RetrocederRecogedor==2)
+        {
+          RetrocederRecogedor=0;
+        }
+        
     // Set the direcction of the arcade stick
     if(Controller1.ButtonA.pressing())
     {
