@@ -58,6 +58,21 @@ void autonomous(void) {
   // ..........................................................................
 }
 
+  int AvanzarRecogedor = 0;
+  int RetrocederRecogedor = 0;
+
+// Controller functions
+void AvanceRecogedor()
+{
+  AvanzarRecogedor++;
+}
+
+void AtrasRecogedor()
+{
+  RetrocederRecogedor++;
+}
+
+
 /*---------------------------------------------------------------------------*/
 /*                                                                           */
 /*                              User Control Task                            */
@@ -68,62 +83,46 @@ void autonomous(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-
-void usercontrol(void) {
+void usercontrol(void) 
+{
   //User declared variables
-  int deadband = 5;
-  int dir = 0;
-  int VelocidadMotorIzquierdo = 0;
-  int VelocidadMotorDerecho = 0;
-  int standadSpd=80;
-  int AvanzarRecogedor = 0;
-  int RetrocederRecogedor = 0;
+
   // User control code here, inside the loop
+  Controller1.ButtonR1.pressed(AvanceRecogedor);
+  Controller1.ButtonR2.pressed(AtrasRecogedor);
+
+
   while (true) {
     //boton de Recogedor
     //---Control de Recogedor---
+      int deadband = 5;
+      int dir = 0;
+      int VelocidadMotorIzquierdo = 0;
+      int VelocidadMotorDerecho = 0;
+      int standadSpd=80;
+
     Recogedor.setVelocity(standadSpd, percent);
-    if (Controller1.ButtonL1.pressing())
+
+    if(AvanzarRecogedor==0&&RetrocederRecogedor==0)
     {
-        while(Controller1.ButtonL1.pressing())
-        {
-        task::sleep(150);
-        }
-        AvanzarRecogedor++;
+      Recogedor.stop();
     }
-        if(AvanzarRecogedor==0)
-        {
-          Recogedor.stop();
-        }
-        else if(AvanzarRecogedor==1)
-        {
-          Recogedor.spin(forward);
-        }
-        else if(AvanzarRecogedor==2)
-        {
-          AvanzarRecogedor=0;
-        }
-    else if (Controller1.ButtonL2.pressing())
+    else if(AvanzarRecogedor==1)
     {
-        while (Controller1.ButtonL2.pressing())
-        {
-          task::sleep(150);
-        }
-        RetrocederRecogedor++;
+      Recogedor.spin(forward);
     }
-        if (RetrocederRecogedor==0)
-        {
-          Recogedor.stop();
-        }
-        else if (RetrocederRecogedor==1)
-        {
-          Recogedor.spin(reverse);
-        }
-        else if(RetrocederRecogedor==2)
-        {
-          RetrocederRecogedor=0;
-        }
-        
+    else if(AvanzarRecogedor==2)
+    {
+      AvanzarRecogedor=0;
+    }
+    if (RetrocederRecogedor==1)
+    {
+      Recogedor.spin(reverse);
+    }
+    else if(RetrocederRecogedor==2)
+    {
+      RetrocederRecogedor=0;
+    }
     // Set the direcction of the arcade stick
     if(Controller1.ButtonA.pressing())
     {
