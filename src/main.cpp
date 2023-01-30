@@ -65,11 +65,13 @@ void autonomous(void) {
 void AvanceRecogedor()
 {
   AvanzarRecogedor++;
+  RetrocederRecogedor=0;
 }
 
 void AtrasRecogedor()
 {
   RetrocederRecogedor++;
+  AvanzarRecogedor=0;
 }
 
 

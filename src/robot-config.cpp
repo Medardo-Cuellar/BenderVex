@@ -22,7 +22,12 @@ motor LadoIzquierdoMotorC = motor(PORT13, ratio18_1, false);
 motor LadoIzquierdoMotorD = motor(PORT14, ratio18_1, true);
 motor_group LadoIzquierdo = motor_group(LadoIzquierdoMotorA, LadoIzquierdoMotorB,LadoIzquierdoMotorC, LadoIzquierdoMotorD);
 
-motor Recogedor = motor(PORT10, ratio18_1, false);
+motor Recogedor = motor(PORT9, ratio18_1, false);
+
+motor Servo = motor(PORT5, ratio18_1,false);
+motor MotorTraseroIzquierdo(PORT8, ratio18_1,false);
+
+
 
 // VEXcode generated functions
 // define variable for remote controller enable/disable

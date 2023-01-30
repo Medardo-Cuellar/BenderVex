@@ -7,7 +7,7 @@ extern controller Controller1;
 extern motor_group LadoDerecho;
 extern motor_group LadoIzquierdo;
 extern motor Recogedor;
-
+extern motor Servo;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
