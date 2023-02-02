@@ -222,9 +222,9 @@ LadoDerecho.setStopping(hold);
     if (Direccion==0){
       if (ContadorVelocidad==0){
         // Get the velocity percentage of the left motor. (Axis3 - Axis4)
-        VelocidadMotorIzquierdo = Controller1.Axis3.position() - Controller1.Axis4.position();
+        VelocidadMotorIzquierdo = Controller1.Axis3.position() + Controller1.Axis4.position();
         // Get the velocity percentage of the right motor. (Axis3 + Axis4)
-        VelocidadMotorDerecho = Controller1.Axis3.position() + Controller1.Axis4.position();
+        VelocidadMotorDerecho = Controller1.Axis3.position() - Controller1.Axis4.position();
       }
        else if (ContadorVelocidad==1){
         // Get the velocity percentage in 1/3
@@ -235,11 +235,10 @@ LadoDerecho.setStopping(hold);
     }
     //Tambien si la variable Direccion es igual a 1 el sentido de los motores derecho es negativo con Axis4  
     else if (Direccion==1){
-        // Get the velocity percentage of the left motor. (Axis3 + Axis4)
-        VelocidadMotorIzquierdo = Controller1.Axis3.position() + Controller1.Axis4.position();
-        // Get the velocity percentage of the right motor. (Axis3 - Axis4)
-        VelocidadMotorDerecho = Controller1.Axis3.position() - Controller1.Axis4.position();
-      }
+        // Get the velocity percentage of the left motor. (Axis3 - Axis4)
+        VelocidadMotorIzquierdo = Controller1.Axis3.position() - Controller1.Axis4.position();
+        // Get the velocity percentage of the right motor. (Axis3 + Axis4)
+        VelocidadMotorDerecho = Controller1.Axis3.position() + Controller1.Axis4.position();      }
 
     // Programación de inversión de giro.
     else if (Direccion==2)
