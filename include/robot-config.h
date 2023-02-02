@@ -8,6 +8,7 @@ extern motor_group LadoDerecho;
 extern motor_group LadoIzquierdo;
 extern motor Recogedor;
 extern motor Servo;
+extern motor_group Lanzador;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.

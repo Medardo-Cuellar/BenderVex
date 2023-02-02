@@ -60,8 +60,23 @@ void autonomous(void) {
 
   int AvanzarRecogedor = 0;
   int RetrocederRecogedor = 0;
+  int AvanzarLanzador = 0, RetrocederLanzador=0;
+  int Direccion = 0; 
+  int ContadorVelocidad = 0;
+  int ServoMover = 0;
 
 // Controller functions
+
+void CambiarDireccion()
+{
+  Direccion++;
+}
+
+void CambiarVelocidad()
+{
+  ContadorVelocidad++;
+}
+
 void AvanceRecogedor()
 {
   AvanzarRecogedor++;
@@ -72,6 +87,23 @@ void AtrasRecogedor()
 {
   RetrocederRecogedor++;
   AvanzarRecogedor=0;
+}
+
+void AvanceLanzador()
+{
+  AvanzarLanzador++;
+  RetrocederLanzador=0;
+}
+
+void AtrasLanzador()
+{
+  RetrocederLanzador++;
+  AvanzarLanzador=0;
+}
+
+void MoverServo()
+{
+  ServoMover++;
 }
 
 
@@ -90,20 +122,32 @@ void usercontrol(void)
   //User declared variables
 
   // User control code here, inside the loop
+
+
+  //rutinas de botones
   Controller1.ButtonR1.pressed(AvanceRecogedor);
   Controller1.ButtonR2.pressed(AtrasRecogedor);
+  Controller1.ButtonL1.pressed(AvanceLanzador);
+  Controller1.ButtonL2.pressed(MoverServo);
+  Controller1.ButtonA.pressed(CambiarDireccion);
+  Controller1.ButtonB.pressed(CambiarVelocidad);
+
 
 
   while (true) {
     //boton de Recogedor
     //---Control de Recogedor---
       int deadband = 5;
-      int dir = 0;
       int VelocidadMotorIzquierdo = 0;
       int VelocidadMotorDerecho = 0;
-      int standadSpd=80;
+      int VelocidadRecogedor=100;
+      int VelocidadLanzador=100;
 
-    Recogedor.setVelocity(standadSpd, percent);
+
+    Recogedor.setVelocity(VelocidadRecogedor, percent);
+    Lanzador.setVelocity(VelocidadLanzador, percent);
+
+  //instrucciones para mover los botones R y L
 
     if(AvanzarRecogedor==0&&RetrocederRecogedor==0)
     {
@@ -125,48 +169,89 @@ void usercontrol(void)
     {
       RetrocederRecogedor=0;
     }
-    // Set the direcction of the arcade stick
-    if(Controller1.ButtonA.pressing())
+
+    if(AvanzarLanzador==0&&RetrocederLanzador==0)
     {
-      while(Controller1.ButtonA.pressing())
-      {
-          task::sleep(150);
-      }
-      dir++;
+      Lanzador.stop();
     }
-    // This is the main execution loop for the user control program.
-    // Each time through the loop your program should update motor + servo
-    // values based on feedback from the joysticks.
+    else if(AvanzarLanzador==1)
+    {
+      Lanzador.spin(forward);
+    }
+    else if(AvanzarLanzador==2)
+    {
+      AvanzarLanzador=0;
+    }
+    if (RetrocederLanzador==1)
+    {
+      Lanzador.spin(reverse);
+    }
+    else if(RetrocederLanzador==2)
+    {
+      RetrocederLanzador=0;
+    }
+
+    if (ServoMover==0)
+    { 
+      Servo.stop();
+    }
+
+    else if(ServoMover==1)
+    {
+      Servo.setVelocity(100, percent);
+      Servo.spinFor(forward, 80, deg);
+      task::sleep(100);
+      Servo.spinFor(reverse, 80, deg);
+      ServoMover=0;
+    }
+
+    else if(ServoMover==2)
+    {
+      ServoMover=0;
+    }
+
     
-        if(dir==1)
-    {
-    // Get the velocity percentage of the left motor. (Axis3 + Axis4)
-    VelocidadMotorIzquierdo =
-        Controller1.Axis3.position() + Controller1.Axis4.position();
-    // Get the velocity percentage of the right motor. (Axis3 - Axis4)
-    VelocidadMotorDerecho =
-        Controller1.Axis3.position() - Controller1.Axis4.position();   
-    //start the motor groups
-    LadoDerecho.spin(forward);
-    LadoIzquierdo.spin(forward);
+
+    
+  // Programación de joysticks.
+
+LadoIzquierdo.setStopping(hold);
+LadoDerecho.setStopping(hold);
+
+  //Si la variable Direccion es igual a 0 el sentido de los motores izquierdos es negativo con Axis4  
+    if (Direccion==0){
+      if (ContadorVelocidad==0){
+        // Get the velocity percentage of the left motor. (Axis3 - Axis4)
+        VelocidadMotorIzquierdo = Controller1.Axis3.position() - Controller1.Axis4.position();
+        // Get the velocity percentage of the right motor. (Axis3 + Axis4)
+        VelocidadMotorDerecho = Controller1.Axis3.position() + Controller1.Axis4.position();
+      }
+       else if (ContadorVelocidad==1){
+        // Get the velocity percentage in 1/3
+        VelocidadMotorIzquierdo = (Controller1.Axis3.position() - Controller1.Axis4.position())/2;
+        // Get the velocity percentage in 1/3
+        VelocidadMotorDerecho = (Controller1.Axis3.position() + Controller1.Axis4.position())/2;
+      }
     }
-    else if(dir==0)
+    //Tambien si la variable Direccion es igual a 1 el sentido de los motores derecho es negativo con Axis4  
+    else if (Direccion==1){
+        // Get the velocity percentage of the left motor. (Axis3 + Axis4)
+        VelocidadMotorIzquierdo = Controller1.Axis3.position() + Controller1.Axis4.position();
+        // Get the velocity percentage of the right motor. (Axis3 - Axis4)
+        VelocidadMotorDerecho = Controller1.Axis3.position() - Controller1.Axis4.position();
+      }
+
+    // Programación de inversión de giro.
+    else if (Direccion==2)
     {
-    // Get the velocity percentage of the left motor. (Axis3 + Axis4)
-    VelocidadMotorIzquierdo =
-       - Controller1.Axis3.position() + Controller1.Axis4.position();
-    // Get the velocity percentage of the right motor. (Axis3 - Axis4)
-    VelocidadMotorDerecho =
-        - Controller1.Axis3.position() - Controller1.Axis4.position();   
-      //start the motor groups
-    LadoDerecho.spin(forward);
-    LadoIzquierdo.spin(forward); 
+      Direccion = 0;
     }
-    else if (dir==2)
+
+    // Programación de reducir / aumentar velocidad
+    else if (ContadorVelocidad==2)
     {
-        dir=0;
-    }
- 
+      ContadorVelocidad=0;
+    } 
 
     // Set the speed of the left motor. If the value is less than the deadband,
     // set it to zero.
@@ -175,8 +260,9 @@ void usercontrol(void)
     Controller1.Screen.setCursor(1,2);
     Controller1.Screen.print("%d",VelocidadMotorIzquierdo);
     
-    Controller1.Screen.setCursor(1,3);
-    Controller1.Screen.print("%d",VelocidadMotorIzquierdo);
+    Controller1.Screen.setCursor(20,1);
+    Controller1.Screen.print("%d",ServoMover);
+
 
     if (abs(VelocidadMotorIzquierdo) < deadband) {
       // Set the speed to zero.
@@ -185,15 +271,29 @@ void usercontrol(void)
       // Set the speed to VelocidadMotorIzquierdo
       LadoIzquierdo.setVelocity(VelocidadMotorIzquierdo, percent);
     }
-
     // Set the speed of the right motor. If the value is less than the deadband,
     // set it to zero.
+    
     if (abs(VelocidadMotorDerecho) < deadband) {
       // Set the speed to zero
       LadoDerecho.setVelocity(0, percent);
-    } else {
+    } if (abs(VelocidadMotorDerecho) > deadband){
       // Set the speed to VelocidadMotorDerecho
       LadoDerecho.setVelocity(VelocidadMotorDerecho, percent);
+    }
+      
+    //---Inversor de sentido (cambio de frente)---
+    if(Direccion==0)
+    {
+      // Spin both motors in the forward direction.
+      LadoDerecho.spin(forward);
+      LadoIzquierdo.spin(forward);  
+    }
+    else if(Direccion==1)
+    {
+      // Spin both motors in the forward direction.
+      LadoDerecho.spin(reverse);
+      LadoIzquierdo.spin(reverse);  
     }
 
 
