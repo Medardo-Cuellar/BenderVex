@@ -51,6 +51,27 @@ void pre_auton(void) {
 /*                                                                           */
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
+//funciones autonomas
+void MoverAdelante()
+{
+  LadoDerecho.spin(forward);
+  LadoIzquierdo.spin(forward);
+}
+void MoverAtras()
+{
+  LadoDerecho.spin(reverse);
+  LadoIzquierdo.spin(reverse);
+}
+void MoverDerecha()
+{
+  LadoDerecho.spin(forward);
+  LadoIzquierdo.spin(reverse);
+}
+void MoverIzquierda()
+{
+  LadoDerecho.spin(reverse);
+  LadoIzquierdo.spin(forward);
+}
 
 void autonomous(void) {
   // ..........................................................................
@@ -107,6 +128,7 @@ void MoverServo()
 }
 
 
+
 /*---------------------------------------------------------------------------*/
 /*                                                                           */
 /*                              User Control Task                            */
@@ -132,7 +154,7 @@ void usercontrol(void)
   Controller1.ButtonA.pressed(CambiarDireccion);
   Controller1.ButtonB.pressed(CambiarVelocidad);
 
-
+  //rutinas de botones direccionales
 
   while (true) {
     //boton de Recogedor
@@ -221,24 +243,35 @@ LadoDerecho.setStopping(hold);
   //Si la variable Direccion es igual a 0 el sentido de los motores izquierdos es negativo con Axis4  
     if (Direccion==0){
       if (ContadorVelocidad==0){
-        // Get the velocity percentage of the left motor. (Axis3 - Axis4)
+        // Get the velocity percentage of the left motor. (Axis3 + Axis4)
         VelocidadMotorIzquierdo = Controller1.Axis3.position() + Controller1.Axis4.position();
-        // Get the velocity percentage of the right motor. (Axis3 + Axis4)
+        // Get the velocity percentage of the right motor. (Axis3 - Axis4)
         VelocidadMotorDerecho = Controller1.Axis3.position() - Controller1.Axis4.position();
       }
        else if (ContadorVelocidad==1){
-        // Get the velocity percentage in 1/3
-        VelocidadMotorIzquierdo = (Controller1.Axis3.position() - Controller1.Axis4.position())/2;
-        // Get the velocity percentage in 1/3
-        VelocidadMotorDerecho = (Controller1.Axis3.position() + Controller1.Axis4.position())/2;
+        // Get the velocity percentage in 1/2
+        VelocidadMotorIzquierdo = (Controller1.Axis3.position() + Controller1.Axis4.position())/2;
+        VelocidadMotorDerecho = (Controller1.Axis3.position() - Controller1.Axis4.position())/2;
       }
     }
     //Tambien si la variable Direccion es igual a 1 el sentido de los motores derecho es negativo con Axis4  
-    else if (Direccion==1){
-        // Get the velocity percentage of the left motor. (Axis3 - Axis4)
-        VelocidadMotorIzquierdo = Controller1.Axis3.position() - Controller1.Axis4.position();
-        // Get the velocity percentage of the right motor. (Axis3 + Axis4)
-        VelocidadMotorDerecho = Controller1.Axis3.position() + Controller1.Axis4.position();      }
+    else if (Direccion==1)
+    {
+        if(ContadorVelocidad==0)
+        {
+          // Get the velocity percentage of the left motor. (Axis3 - Axis4)
+          VelocidadMotorIzquierdo = Controller1.Axis3.position() - Controller1.Axis4.position();
+          // Get the velocity percentage of the right motor. (Axis3 + Axis4)
+          VelocidadMotorDerecho = Controller1.Axis3.position() + Controller1.Axis4.position();     
+        }
+        else if(ContadorVelocidad==1)
+        {
+          // Get the velocity percentage in 1/2
+          VelocidadMotorIzquierdo = Controller1.Axis3.position() - Controller1.Axis4.position()/2;
+          VelocidadMotorDerecho = Controller1.Axis3.position() + Controller1.Axis4.position()/2;     
+        }
+ 
+      }
 
     // Programación de inversión de giro.
     else if (Direccion==2)
@@ -247,7 +280,7 @@ LadoDerecho.setStopping(hold);
     }
 
     // Programación de reducir / aumentar velocidad
-    else if (ContadorVelocidad==2)
+    if (ContadorVelocidad==2)
     {
       ContadorVelocidad=0;
     } 
@@ -257,10 +290,8 @@ LadoDerecho.setStopping(hold);
 
     //print the current speed of the 
     Controller1.Screen.setCursor(1,2);
-    Controller1.Screen.print("%d",VelocidadMotorIzquierdo);
+    Controller1.Screen.print("%d %d",Direccion, ContadorVelocidad);
     
-    Controller1.Screen.setCursor(20,1);
-    Controller1.Screen.print("%d",ServoMover);
 
 
     if (abs(VelocidadMotorIzquierdo) < deadband) {
@@ -294,6 +325,7 @@ LadoDerecho.setStopping(hold);
       LadoDerecho.spin(reverse);
       LadoIzquierdo.spin(reverse);  
     }
+
 
 
     // ........................................................................
