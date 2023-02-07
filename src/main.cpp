@@ -73,6 +73,21 @@ void MoverIzquierda()
   LadoIzquierdo.spin(forward);
 }
 
+void MoverLanzador()
+{
+
+}
+
+void MoverLanzador()
+{
+
+}
+
+void LanzaServo()
+{
+
+}
+
 void autonomous(void) {
   // ..........................................................................
   // Insert autonomous user code here.
