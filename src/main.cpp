@@ -12,7 +12,8 @@
 // [Name]               [Type]        [Port(s)]
 // Controller1          controller                    
 // LadoDerecho          motor_group   1, 2            
-// LadoIzquierdo        motor_group   11, 12          
+// LadoIzquierdo        motor_group   11, 12
+// ServoLanzador        motor         5             
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
@@ -78,10 +79,6 @@ void MoverLanzador()
 
 }
 
-void MoverLanzador()
-{
-
-}
 
 void LanzaServo()
 {
@@ -227,29 +224,7 @@ void usercontrol(void)
     {
       RetrocederLanzador=0;
     }
-
-    if (ServoMover==0)
-    { 
-      Servo.stop();
-    }
-
-    else if(ServoMover==1)
-    {
-      Servo.setVelocity(100, percent);
-      Servo.spinFor(forward, 80, deg);
-      task::sleep(100);
-      Servo.spinFor(reverse, 80, deg);
-      ServoMover=0;
-    }
-
-    else if(ServoMover==2)
-    {
-      ServoMover=0;
-    }
-
-    
-
-    
+  
   // Programación de joysticks.
 
 LadoIzquierdo.setStopping(hold);
@@ -341,6 +316,19 @@ LadoDerecho.setStopping(hold);
       LadoIzquierdo.spin(reverse);  
     }
 
+
+    if(Controller1.ButtonL2.pressing())
+  {
+    /*ServoLanzador.setPosition(80, degrees);
+    task::sleep(200);
+    ServoLanzador.resetPosition();*/
+    ServoLanzador.rotateTo(-45,rotationUnits::deg,50,velocityUnits::pct,100);
+  }
+
+  else
+  {
+    ServoLanzador.rotateTo(0,rotationUnits::deg,50,velocityUnits::pct,100);
+  }
 
 
     // ........................................................................
