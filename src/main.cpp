@@ -7,7 +7,7 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-// ---- START VEXCODE CONFIGURED DEVICES ----
+// ---- START VEXCODE CONFIGURED DEVICES Este es un cambio  ----
 // Robot Configuration:
 // [Name]               [Type]        [Port(s)]
 // Controller1          controller                    
