@@ -24,11 +24,13 @@ motor_group LadoIzquierdo = motor_group(LadoIzquierdoMotorA, LadoIzquierdoMotorB
 
 motor Recogedor = motor(PORT9, ratio18_1, false);
 
-motor Servo = motor(PORT5, ratio18_1,true);
+motor ServoLanzador = motor(PORT5, ratio18_1,true);
 
 motor MotorLanzador1 = motor(PORT7, ratio18_1, false);
 motor MotorLanzador2 = motor(PORT8, ratio18_1, false);
 motor_group Lanzador = motor_group(MotorLanzador1,MotorLanzador2);
+
+drivetrain Drivetrain = drivetrain(LadoIzquierdo,LadoDerecho,4*3.1416,12,15,distanceUnits::in,1.0);
 
 
 

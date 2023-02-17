@@ -53,27 +53,37 @@ void pre_auton(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 //funciones autonomas
-void MoverAdelante()
+
+void MoverAdelante(int tiempomovimiento)
 {
   LadoDerecho.spin(forward);
   LadoIzquierdo.spin(forward);
+  task::sleep(tiempomovimiento);
 }
-void MoverAtras()
+void MoverAtras(int tiempomovimiento)
 {
   LadoDerecho.spin(reverse);
   LadoIzquierdo.spin(reverse);
+  task::sleep(tiempomovimiento);
 }
-void MoverDerecha()
+void MoverDerecha(int tiempomovimiento)
 {
   LadoDerecho.spin(forward);
   LadoIzquierdo.spin(reverse);
+  task::sleep(tiempomovimiento);
 }
-void MoverIzquierda()
+void MoverIzquierda(int tiempomovimiento)
 {
   LadoDerecho.spin(reverse);
   LadoIzquierdo.spin(forward);
+  task::sleep(tiempomovimiento);
 }
 
+void DetenerMovimiento()
+{
+  LadoDerecho.stop();
+  LadoIzquierdo.stop();
+}
 void MoverLanzador()
 {
 
@@ -85,10 +95,31 @@ void LanzaServo()
 
 }
 
+
+void DispararPrecarga(int tiempolanzador,int speedServoLanzador, int speedLanzador)
+{
+  Lanzador.spin(forward, speedLanzador, pct);
+  task::sleep(200);
+  ServoLanzador.rotateTo(-45,deg,speedServoLanzador,velocityUnits::pct);
+  task::sleep(200);
+  ServoLanzador.rotateTo(0,deg,speedServoLanzador,velocityUnits::pct);
+  task::sleep(tiempolanzador);
+}
+
+void DetenerLanzadores()
+{
+  Lanzador.stop();
+  ServoLanzador.stop();
+}
+
+
 void autonomous(void) {
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
+MoverAdelante(2);
+DispararPrecarga(2, 50, 100);
+
 }
 
   int AvanzarRecogedor = 0;
