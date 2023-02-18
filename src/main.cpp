@@ -170,7 +170,36 @@ void MoverServo()
   ServoMover++;
 }
 
-
+int VelocidadRecogedor=100;
+int VelocidadLanzador=100;
+void SubirVelocidadRecogedor()
+{
+  if(VelocidadRecogedor==100)
+  {VelocidadRecogedor=0;}
+  else
+  {VelocidadRecogedor++;}
+}
+void SubirVelocidadLanzador()
+{
+  if(VelocidadLanzador==100)
+  {VelocidadLanzador=0;}
+  else
+  {VelocidadLanzador++;}
+}
+void BajarVelocidadRecogedor()
+{
+  if(VelocidadRecogedor==0)
+  {VelocidadRecogedor=100;}
+  else
+  {VelocidadRecogedor--;}
+}
+void BajarVelocidadLanzador()
+{
+  if(VelocidadLanzador==0)
+  {VelocidadLanzador=100;}
+  else
+  {VelocidadLanzador--;}
+}
 
 /*---------------------------------------------------------------------------*/
 /*                                                                           */
@@ -197,6 +226,15 @@ void usercontrol(void)
   Controller1.ButtonA.pressed(CambiarDireccion);
   Controller1.ButtonB.pressed(CambiarVelocidad);
 
+// Para probar en autonomo la velocidad del lanzador correcta
+
+//Comentar estas lineas en caso de no necesitar hacer ajustes adicionales
+
+  Controller1.ButtonDown.pressed(BajarVelocidadLanzador);
+  Controller1.ButtonLeft.pressed(BajarVelocidadRecogedor);
+  Controller1.ButtonUp.pressed(SubirVelocidadLanzador);
+  Controller1.ButtonRight.pressed(SubirVelocidadRecogedor);
+
   //rutinas de botones direccionales
 
   while (true) {
@@ -205,8 +243,7 @@ void usercontrol(void)
       int deadband = 5;
       int VelocidadMotorIzquierdo = 0;
       int VelocidadMotorDerecho = 0;
-      int VelocidadRecogedor=100;
-      int VelocidadLanzador=100;
+
 
 
     Recogedor.setVelocity(VelocidadRecogedor, percent);
@@ -311,7 +348,7 @@ LadoDerecho.setStopping(hold);
 
     //print the current speed of the 
     Controller1.Screen.setCursor(1,2);
-    Controller1.Screen.print("%d %d",Direccion, ContadorVelocidad);
+    Controller1.Screen.print("Direccion %d, Velocidad %d, Lanzador %d, Recogedor %d",Direccion, ContadorVelocidad,VelocidadLanzador,VelocidadRecogedor);
     
 
 
