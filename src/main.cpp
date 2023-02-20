@@ -348,7 +348,7 @@ LadoDerecho.setStopping(hold);
 
     //print the current speed of the 
     Controller1.Screen.setCursor(1,2);
-    Controller1.Screen.print("Direccion %d, Velocidad %d, Lanzador %d, Recogedor %d",Direccion, ContadorVelocidad,VelocidadLanzador,VelocidadRecogedor);
+    Controller1.Screen.print("L%d R%d D%d V%d",VelocidadLanzador, VelocidadRecogedor, Direccion, ContadorVelocidad);
     
 
 

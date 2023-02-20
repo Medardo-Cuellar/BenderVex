@@ -10,27 +10,24 @@ brain  Brain;
 // VEXcode device constructors
 controller Controller1 = controller(primary);
 
-motor LadoDerechoMotorA = motor(PORT1, ratio18_1, false);
-motor LadoDerechoMotorB = motor(PORT2, ratio18_1, true);
-motor LadoDerechoMotorC = motor(PORT3, ratio18_1, true);
-motor LadoDerechoMotorD = motor(PORT4, ratio18_1, false);
-motor_group LadoDerecho = motor_group(LadoDerechoMotorA, LadoDerechoMotorB,LadoDerechoMotorC,LadoDerechoMotorD);
+motor LadoDerechoMotorA = motor(PORT4, ratio18_1, true);
+motor LadoDerechoMotorB = motor(PORT5, ratio18_1, false);
+motor LadoDerechoMotorC = motor(PORT6, ratio18_1, true);
+motor_group LadoDerecho = motor_group(LadoDerechoMotorA, LadoDerechoMotorB,LadoDerechoMotorC);
 
-motor LadoIzquierdoMotorA = motor(PORT11, ratio18_1, true);
-motor LadoIzquierdoMotorB = motor(PORT12, ratio18_1, false);
-motor LadoIzquierdoMotorC = motor(PORT13, ratio18_1, false);
-motor LadoIzquierdoMotorD = motor(PORT14, ratio18_1, true);
-motor_group LadoIzquierdo = motor_group(LadoIzquierdoMotorA, LadoIzquierdoMotorB,LadoIzquierdoMotorC, LadoIzquierdoMotorD);
+motor LadoIzquierdoMotorA = motor(PORT1, ratio18_1, false);
+motor LadoIzquierdoMotorB = motor(PORT2, ratio18_1, true);
+motor LadoIzquierdoMotorC = motor(PORT3, ratio18_1, false);
 
-motor Recogedor = motor(PORT9, ratio18_1, false);
+motor_group LadoIzquierdo = motor_group(LadoIzquierdoMotorA, LadoIzquierdoMotorB,LadoIzquierdoMotorC);
 
-motor ServoLanzador = motor(PORT5, ratio18_1,true);
+motor Recogedor = motor(PORT10, ratio18_1, true);
 
-motor MotorLanzador1 = motor(PORT7, ratio18_1, false);
-motor MotorLanzador2 = motor(PORT8, ratio18_1, false);
+motor ServoLanzador = motor(PORT8, ratio18_1,false);
+
+motor MotorLanzador1 = motor(PORT16, ratio18_1, false);
+motor MotorLanzador2 = motor(PORT17, ratio18_1, true);
 motor_group Lanzador = motor_group(MotorLanzador1,MotorLanzador2);
-
-drivetrain Drivetrain = drivetrain(LadoIzquierdo,LadoDerecho,4*3.1416,12,15,distanceUnits::in,1.0);
 
 
 
