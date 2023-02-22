@@ -29,6 +29,7 @@ motor MotorLanzador1 = motor(PORT16, ratio18_1, false);
 motor MotorLanzador2 = motor(PORT17, ratio18_1, true);
 motor_group Lanzador = motor_group(MotorLanzador1,MotorLanzador2);
 
+drivetrain Bender = drivetrain(LadoIzquierdo,LadoDerecho,12.56637061,5,5.5,distanceUnits::in);
 
 
 // VEXcode generated functions

@@ -58,25 +58,41 @@ void MoverAdelante(int tiempomovimiento)
 {
   LadoDerecho.spin(forward);
   LadoIzquierdo.spin(forward);
+  Controller1.Screen.print("Adelante");
   task::sleep(tiempomovimiento);
+  Controller1.Screen.clearLine();
+  LadoDerecho.stop();
+  LadoIzquierdo.stop();
 }
 void MoverAtras(int tiempomovimiento)
 {
   LadoDerecho.spin(reverse);
   LadoIzquierdo.spin(reverse);
+  Controller1.Screen.print("Atras");
   task::sleep(tiempomovimiento);
+  Controller1.Screen.clearLine();
+  LadoDerecho.stop();
+  LadoIzquierdo.stop();
 }
 void MoverDerecha(int tiempomovimiento)
 {
   LadoDerecho.spin(forward);
   LadoIzquierdo.spin(reverse);
+  Controller1.Screen.print("Derecha");
   task::sleep(tiempomovimiento);
+  Controller1.Screen.clearLine();
+  LadoDerecho.stop();
+  LadoIzquierdo.stop();
 }
 void MoverIzquierda(int tiempomovimiento)
 {
   LadoDerecho.spin(reverse);
   LadoIzquierdo.spin(forward);
+  Controller1.Screen.print("Izquierda");
   task::sleep(tiempomovimiento);
+  Controller1.Screen.clearLine();
+  LadoDerecho.stop();
+  LadoIzquierdo.stop();
 }
 
 void DetenerMovimiento()
@@ -96,14 +112,24 @@ void LanzaServo()
 }
 
 
-void DispararPrecarga(int tiempolanzador,int speedServoLanzador, int speedLanzador)
+void DispararPrecarga(int speedServoLanzador, int speedLanzador,int intermedio, int velocidad)
 {
+  Lanzador.setVelocity(velocidad,percent);
   Lanzador.spin(forward, speedLanzador, pct);
+  task::sleep(intermedio+500);
+  Controller1.Screen.print("pimer disparo");
+  ServoLanzador.rotateTo(-45,deg,speedServoLanzador,velocityUnits::pct);
   task::sleep(200);
+  Controller1.Screen.clearLine();
+  ServoLanzador.rotateTo(0,deg,speedServoLanzador,velocityUnits::pct);
+  task::sleep(intermedio);
+  Controller1.Screen.print("segundo disparo");
   ServoLanzador.rotateTo(-45,deg,speedServoLanzador,velocityUnits::pct);
   task::sleep(200);
   ServoLanzador.rotateTo(0,deg,speedServoLanzador,velocityUnits::pct);
-  task::sleep(tiempolanzador);
+  Controller1.Screen.clearLine();
+  Lanzador.stop();
+  task::sleep(200);
 }
 
 void DetenerLanzadores()
@@ -117,8 +143,22 @@ void autonomous(void) {
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
-MoverAdelante(2);
-DispararPrecarga(2, 50, 100);
+
+
+
+//Bender.driveFor(reverse, 40, inches);
+/*
+LadoDerecho.setVelocity(80, percent);
+LadoIzquierdo.setVelocity(80, percent);
+*/
+MoverAtras(3300);
+MoverDerecha(400);
+//Bender.turnFor(-30, degrees);
+//Controller1.Screen.print("vuelta");
+//Bender.stop();
+//Controller1.Screen.clearLine();
+
+DispararPrecarga(100, 80, 2000, 50); // speedServoLanzador, speedLanzador, velocidad del tiempo intermedio entre lanzamientos para maximizar potencia de disparo, velocidad del lanzador
 
 }
 
@@ -177,28 +217,28 @@ void SubirVelocidadRecogedor()
   if(VelocidadRecogedor==100)
   {VelocidadRecogedor=0;}
   else
-  {VelocidadRecogedor++;}
+  {VelocidadRecogedor=VelocidadRecogedor+10;}
 }
 void SubirVelocidadLanzador()
 {
   if(VelocidadLanzador==100)
   {VelocidadLanzador=0;}
   else
-  {VelocidadLanzador++;}
+  {VelocidadLanzador=VelocidadLanzador+10;}
 }
 void BajarVelocidadRecogedor()
 {
   if(VelocidadRecogedor==0)
   {VelocidadRecogedor=100;}
   else
-  {VelocidadRecogedor--;}
+  {VelocidadRecogedor=VelocidadRecogedor-10;}
 }
 void BajarVelocidadLanzador()
 {
   if(VelocidadLanzador==0)
   {VelocidadLanzador=100;}
   else
-  {VelocidadLanzador--;}
+  {VelocidadLanzador=VelocidadLanzador-10;}
 }
 
 /*---------------------------------------------------------------------------*/
