@@ -8,8 +8,10 @@ extern motor_group LadoDerecho;
 extern motor_group LadoIzquierdo;
 extern motor Recogedor;
 extern motor ServoLanzador;
+extern motor Rodillo;
 extern motor_group Lanzador;
 extern drivetrain Bender;
+extern digital_out SelenoideFinal;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.

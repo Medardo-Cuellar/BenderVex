@@ -168,6 +168,8 @@ DispararPrecarga(100, 80, 2000, 50); // speedServoLanzador, speedLanzador, veloc
   int Direccion = 0; 
   int ContadorVelocidad = 0;
   int ServoMover = 0;
+  int RodilloMover = 0;
+  int LanzamientoFinal = 0;
 
 // Controller functions
 
@@ -208,6 +210,16 @@ void AtrasLanzador()
 void MoverServo()
 {
   ServoMover++;
+}
+
+void MoverRodillo()
+{
+  RodilloMover++;
+}
+
+void LanzarFinal()
+{
+  LanzamientoFinal++;
 }
 
 int VelocidadRecogedor=100;
@@ -265,6 +277,8 @@ void usercontrol(void)
   Controller1.ButtonL2.pressed(MoverServo);
   Controller1.ButtonA.pressed(CambiarDireccion);
   Controller1.ButtonB.pressed(CambiarVelocidad);
+  Controller1.ButtonX.pressed(MoverRodillo);
+
 
 // Para probar en autonomo la velocidad del lanzador correcta
 
@@ -332,11 +346,42 @@ void usercontrol(void)
     {
       RetrocederLanzador=0;
     }
-  
+    //se agrega modificador de velocidad en caso que el rodillo no tenga mucho control
+    
+    if (RodilloMover==1)
+    {
+      if (ContadorVelocidad==0){
+        Rodillo.setVelocity(100, percent);
+        }
+      else if (ContadorVelocidad==1) {
+        Rodillo.setVelocity(50, percent);
+        }
+      Rodillo.spin(forward);
+    }
+    else if(RodilloMover==2)
+    {
+      RodilloMover=0;
+    }
+    
+  //configurador del endgame con idea preliminar
+  if(LanzamientoFinal==1)
+  {
+    SelenoideFinal.set(1);
+    task::sleep(250);
+    SelenoideFinal.set(0);
+  }
+  else if(LanzamientoFinal==2)
+  {
+    LanzamientoFinal=0;
+  }
+
+
   // Programación de joysticks.
 
+/*
 LadoIzquierdo.setStopping(hold);
 LadoDerecho.setStopping(hold);
+*/
 
   //Si la variable Direccion es igual a 0 el sentido de los motores izquierdos es negativo con Axis4  
     if (Direccion==0){
