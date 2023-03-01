@@ -227,27 +227,27 @@ int VelocidadLanzador=100;
 void SubirVelocidadRecogedor()
 {
   if(VelocidadRecogedor==100)
-  {VelocidadRecogedor=0;}
+  {VelocidadRecogedor=40;}
   else
   {VelocidadRecogedor=VelocidadRecogedor+10;}
 }
 void SubirVelocidadLanzador()
 {
   if(VelocidadLanzador==100)
-  {VelocidadLanzador=0;}
+  {VelocidadLanzador=40;}
   else
   {VelocidadLanzador=VelocidadLanzador+10;}
 }
 void BajarVelocidadRecogedor()
 {
-  if(VelocidadRecogedor==0)
+  if(VelocidadRecogedor==40)
   {VelocidadRecogedor=100;}
   else
   {VelocidadRecogedor=VelocidadRecogedor-10;}
 }
 void BajarVelocidadLanzador()
 {
-  if(VelocidadLanzador==0)
+  if(VelocidadLanzador==40)
   {VelocidadLanzador=100;}
   else
   {VelocidadLanzador=VelocidadLanzador-10;}
@@ -278,6 +278,7 @@ void usercontrol(void)
   Controller1.ButtonA.pressed(CambiarDireccion);
   Controller1.ButtonB.pressed(CambiarVelocidad);
   Controller1.ButtonX.pressed(MoverRodillo);
+  Controller1.ButtonY.pressed(LanzarFinal);
 
 
 // Para probar en autonomo la velocidad del lanzador correcta
@@ -356,11 +357,12 @@ void usercontrol(void)
       else if (ContadorVelocidad==1) {
         Rodillo.setVelocity(50, percent);
         }
-      Rodillo.spin(forward);
+      Rodillo.spin(reverse);
     }
     else if(RodilloMover==2)
     {
       RodilloMover=0;
+      Rodillo.stop();
     }
     
   //configurador del endgame con idea preliminar
