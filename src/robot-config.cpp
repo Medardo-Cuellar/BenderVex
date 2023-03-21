@@ -24,6 +24,7 @@ motor_group LadoIzquierdo = motor_group(LadoIzquierdoMotorA, LadoIzquierdoMotorB
 motor Recogedor = motor(PORT10, ratio18_1, true);
 
 motor ServoLanzador = motor(PORT8, ratio18_1,false);
+motor LanzaHilos = motor(PORT11, ratio18_1, false);
 
 motor MotorLanzador1 = motor(PORT16, ratio18_1, false);
 motor MotorLanzador2 = motor(PORT17, ratio18_1, true);
